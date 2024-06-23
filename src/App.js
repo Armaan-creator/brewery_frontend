@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import Login from './components/Login'; // Adjust import path based on your project structure
 import './App.css'; // Optional: CSS file for styling
 
