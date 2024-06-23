@@ -7,7 +7,7 @@ const BreweryDetails = () => {
   const { id } = useParams();
   const [brewery, setBrewery] = useState(null);
   const [review, setReview] = useState('');
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState('');
   const [existingReviews, setExistingReviews] = useState([]);
 
   // Parse the userId from localStorage
@@ -51,12 +51,16 @@ const BreweryDetails = () => {
 
   const handleReviewSubmit = (e) => {
     e.preventDefault();
+    if (!review || !rating) {
+      alert("Please provide both review and rating.");
+      return;
+    }
     const reviewData = { userId, breweryId, review, rating, username };
     axios.post(`https://brewery-api-qjzd.onrender.com/api/reviews/${userId}/${breweryId}`, reviewData)
       .then(response => {
         setExistingReviews(prevReviews => [...prevReviews, response.data]);
         setReview('');
-        setRating(0);
+        setRating('');
         alert('Review submitted successfully!');
       })
       .catch(error => {
@@ -68,19 +72,23 @@ const BreweryDetails = () => {
   return (
     <div className="brewery-details">
       {brewery ? (
-        <div className="brewery-card">
-          <div className="brewery-card-body">
-            <h2 className="brewery-card-title">{brewery.name}</h2>
-            <p className="brewery-card-text"><strong>Type:</strong> {brewery.brewery_type}</p>
-            <p className="brewery-card-text"><strong>Address:</strong> {brewery.street}, {brewery.city}, {brewery.state} {brewery.postal_code}</p>
-            <p className="brewery-card-text"><strong>Phone:</strong> {brewery.phone ? brewery.phone : "N/A"}</p>
-            {brewery.website_url && (
-              <p className="brewery-card-text">
-                <strong>Website:</strong> <a href={brewery.website_url} target="_blank" rel="noopener noreferrer">{brewery.website_url}</a>
-              </p>
-            )}
+        <>
+          <div className="brewery-card">
+            <div className="brewery-card-body">
+              <h2 className="brewery-card-title">{brewery.name}</h2>
+              <p className="brewery-card-text"><strong>Type:</strong> {brewery.brewery_type}</p>
+              <p className="brewery-card-text"><strong>Address:</strong> {brewery.street}, {brewery.city}, {brewery.state} {brewery.postal_code}</p>
+              <p className="brewery-card-text"><strong>Phone:</strong> {brewery.phone ? brewery.phone : "N/A"}</p>
+              {brewery.website_url && (
+                <p className="brewery-card-text">
+                  <strong>Website:</strong> <a href={brewery.website_url} target="_blank" rel="noopener noreferrer">{brewery.website_url}</a>
+                </p>
+              )}
+            </div>
+          </div>
 
-            <div className="brewery-review-section">
+          <div className="review-card">
+            <div className="review-card-body">
               <h3>Reviews</h3>
               {existingReviews.length > 0 ? (
                 <div className="brewery-existing-reviews">
@@ -97,7 +105,7 @@ const BreweryDetails = () => {
               )}
               
               <form onSubmit={handleReviewSubmit} className="brewery-review-form">
-              <h3 className='brewery-review-section'>Submit YOUR Rating and Review-</h3>
+                <h3>Submit YOUR Rating and Review</h3>
                 <div className="form-group">
                   <label htmlFor="review">Your Review</label>
                   <textarea
@@ -105,26 +113,31 @@ const BreweryDetails = () => {
                     className="form-control"
                     value={review}
                     onChange={(e) => setReview(e.target.value)}
+                    required
                   />
                 </div>
                 <div className="form-group">
-                 
                   <label htmlFor="rating">Your Rating</label>
-                  <input
-                    type="number"
+                  <select
                     id="rating"
                     className="form-control"
                     value={rating}
-                    onChange={(e) => setRating(Number(e.target.value))}
-                    min="0"
-                    max="5"
-                  />
+                    onChange={(e) => setRating(e.target.value)}
+                    required
+                  >
+                    <option value="">Select Rating</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
                 </div>
                 <button type="submit" className="btn btn-primary">Submit Review</button>
               </form>
             </div>
           </div>
-        </div>
+        </>
       ) : (
         <p>Loading...</p>
       )}
