@@ -1,0 +1,65 @@
+.brewery-details {
+  padding: 20px;
+}
+
+.brewery-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.brewery-card-body {
+  margin: 0;
+}
+
+.brewery-card-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.brewery-card-text {
+  margin: 5px 0;
+}
+
+.brewery-review-section {
+  margin-top: 20px;
+}
+
+.brewery-existing-reviews ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.brewery-existing-reviews li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.brewery-review-form {
+  margin-top: 20px;
+}
+
+.brewery-review-form .form-group {
+  margin-bottom: 15px;
+}
+
+.brewery-review-form .form-control {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.brewery-review-form .btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.brewery-review-form .btn:hover {
+  background-color: #0056b3;
+}
